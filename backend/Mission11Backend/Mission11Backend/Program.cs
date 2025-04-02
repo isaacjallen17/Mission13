@@ -16,7 +16,7 @@ builder.Services.AddDbContext<BookstoreDbContext>(options =>
 builder.Services.AddCors(options => 
     options.AddPolicy("DisPolicy", 
     policy => {
-        policy.WithOrigins("http://localhost:3002").AllowAnyMethod().AllowAnyHeader();
+        policy.WithOrigins("http://localhost:3002", "https://salmon-bay-0bbe3f81e.6.azurestaticapps.net").AllowAnyMethod().AllowAnyHeader();
     }));
 
 var app = builder.Build();
