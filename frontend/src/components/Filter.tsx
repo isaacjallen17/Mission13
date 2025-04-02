@@ -15,7 +15,7 @@ function Filter({
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(
-        'https://localhost:7088/Bookstore/catgories'
+        'https://mission13backendija531.azurewebsites.net/Bookstore/catgories'
       );
       const data = await response.json();
       setCategories(data);
