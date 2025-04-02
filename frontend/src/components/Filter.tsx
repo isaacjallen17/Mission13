@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Filter.css';
+import { useNavigate } from 'react-router-dom';
 
 function Filter({
   selectedCategories,
@@ -9,6 +10,7 @@ function Filter({
   setSelectedCategories: (categories: string[]) => void;
 }) {
   const [categories, setCategories] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -31,6 +33,15 @@ function Filter({
 
   return (
     <>
+      <button className="btn btn-primary" onClick={() => navigate('/admin')}>
+        Admin Access
+      </button>
+      <p>
+        * Please do not go here unless you're an admin. It isn't password
+        protected.
+      </p>
+      <br />
+      <br />
       <div className="category-filter">
         <h5>Filter By Categories:</h5>
         <div className="category-list">

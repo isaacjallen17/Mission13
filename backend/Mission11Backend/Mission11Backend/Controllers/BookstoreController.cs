@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mission11Backend.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mission11Backend.Controllers
 {
@@ -69,6 +70,50 @@ namespace Mission11Backend.Controllers
             var categories = _bookstoreContext.Books.Select(b => b.Category).Distinct().ToList();
 
             return Ok(categories);
+        }
+
+        [HttpPost("AddBook")]
+        public IActionResult AddBook([FromBody] Book newBook)
+        {
+            _bookstoreContext.Books.Add(newBook);
+            _bookstoreContext.SaveChanges();
+            return Ok(newBook);
+        }
+
+        [HttpPut("Edit/{bookID}")]
+        public IActionResult UpdateBook(int bookID, [FromBody] Book updatedBook)
+        {
+            var existingBook = _bookstoreContext.Books.Find(bookID);
+
+            existingBook.Title = updatedBook.Title;
+            existingBook.Author = updatedBook.Author;
+            existingBook.Publisher = updatedBook.Publisher;
+            existingBook.ISBN = updatedBook.ISBN;
+            existingBook.Classification = updatedBook.Classification;
+            existingBook.Category = updatedBook.Category;
+            existingBook.PageCount = updatedBook.PageCount;
+            existingBook.Price = updatedBook.Price;
+
+            _bookstoreContext.Books.Update(existingBook);
+            _bookstoreContext.SaveChanges();
+
+            return Ok(updatedBook);
+        }
+
+        [HttpDelete("Delete/{bookID}")]
+        public IActionResult DeleteBook(int bookID)
+        {
+            var deletedBook = _bookstoreContext.Books.Find(bookID);
+
+            if (bookID == null)
+            {
+                return NotFound(new { message = "Book not found." });
+            }
+
+            _bookstoreContext.Books.Remove(deletedBook);
+            _bookstoreContext.SaveChanges();
+
+            return NoContent();
         }
     }
 }
